@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>吳冠儒 | 個人網頁</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: rgba(30, 41, 59, 0.2);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent: #38bdf8;
+            --accent-hover: #0284c7;
+        }
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', 'Noto Sans TC', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            /* 自訂背景圖片 */
+            background-image: url('bg.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            overflow: hidden;
+        }
+        .container {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 40px 30px;
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            animation: fadeIn 1s ease-in-out;
+            z-index: 1;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .avatar {
+            width: 100px;
+            height: 100px;
+            object-fit: cover; /* 確保照片完美填滿圓形不拉伸 */
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: block;
+            box-shadow: 0 4px 15px rgba(56, 189, 248, 0.4);
+        }
+        h1 {
+            margin: 0 0 10px;
+            font-size: 24px;
+            letter-spacing: 1px;
+        }
+        p.subtitle {
+            color: var(--text-muted);
+            font-size: 14px;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+        .links {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .link-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background-color: rgba(255,255,255,0.05);
+            color: var(--text-main);
+            text-decoration: none;
+            padding: 12px 20px;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255,255,255,0.1);
+            cursor: pointer;
+        }
+        .link-btn:hover {
+            background-color: var(--accent);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(56, 189, 248, 0.4);
+            border-color: var(--accent);
+        }
+        .footer {
+            margin-top: 30px;
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 背景音樂播放器 (自動播放) -->
+    <audio id="bgm" autoplay loop>
+        <source src="music.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="container">
+        <!-- 替換為真實照片的大頭貼 -->
+        <img src="1.jpg" class="avatar" alt="吳冠儒">
+        
+        <h1>吳冠儒</h1>
+        <p class="subtitle">
+            ❤我愛楊舒涵❤
+        </p>
+        <div class="links">
+            <a href="https://instagram.com/wwgruu" target="_blank" class="link-btn">
+                <i class="fab fa-instagram"></i> Instagram
+            </a>
+            <a href="#" class="link-btn" onclick="alert('我的 Discord ID 是：wgruu\n歡迎加我好友！'); return false;">
+                <i class="fab fa-discord"></i> Discord
+            </a>
+            <a href="https://github.com/wwgruu" target="_blank" class="link-btn">
+                <i class="fab fa-github"></i> GitHub
+            </a>
+            
+            <!-- 音樂播放按鈕 -->
+            <a href="#" class="link-btn" id="musicBtn" onclick="toggleMusic(); return false;">
+                <i class="fas fa-pause"></i> 暫停背景音樂
+            </a>
+            <!-- 音量控制拉桿 -->
+            <div class="volume-container" style="display: flex; align-items: center; justify-content: center; gap: 10px; color: var(--text-muted); margin-top: -5px;">
+                <i class="fas fa-volume-down"></i>
+                <input type="range" id="volCtrl" min="0" max="1" step="0.05" value="0.5" style="accent-color: var(--accent); width: 120px;">
+                <i class="fas fa-volume-up"></i>
+            </div>
+        </div>
+        <div class="footer">
+            &copy; 2026 Guan-Ru Wu. All rights reserved.
+        </div>
+    </div>
+
+    <script>
+        // --- 音樂播放與音量控制 ---
+        var bgm = document.getElementById("bgm");
+        var musicBtn = document.getElementById("musicBtn");
+        var volCtrl = document.getElementById("volCtrl");
+
+        // 初始化：設定為播放狀態與預設音量(50%)
+        var isPlaying = true;
+        bgm.volume = volCtrl.value;
+
+        // 監聽音量拉桿變動
+        volCtrl.addEventListener("input", function() {
+            bgm.volume = this.value;
+        });
+
+        // 點擊按鈕切換播放/暫停
+        function toggleMusic() {
+            if (isPlaying) {
+                bgm.pause();
+                musicBtn.innerHTML = '<i class="fas fa-music"></i> 播放背景音樂';
+            } else {
+                bgm.play();
+                musicBtn.innerHTML = '<i class="fas fa-pause"></i> 暫停背景音樂';
+            }
+            isPlaying = !isPlaying;
+        }
+
+        // 突破瀏覽器限制：當使用者點擊網頁任何一處時，若音樂被阻擋則強制播放
+        document.body.addEventListener('click', function() {
+            if (bgm.paused && isPlaying) {
+                bgm.play();
+            }
+        }, { once: true });
+    </script>
+</body>
+</html>
